@@ -2,6 +2,13 @@ esphome:
   name: valve
   platform: ESP8266
   board: esp_wroom_02
+  on_boot:
+    priority: 1000
+    then:
+      - logger.log: "Valve is ready"
+      - mqtt.publish:
+          topic: "valve/status"
+          payload: "ready"
 
 wifi:
   ssid: "DiffurNet"
@@ -11,10 +18,23 @@ mqtt:
   broker: 192.168.10.105
   username: user
   on_message:
-    topic: my/custom/topic
+    topic: valve/channel/1
     qos: 0
     then:
       - logger.log: "Still executing"
+      - switch.turn_off: ManualButton
+      - delay: 1s
+      - switch.turn_on: ManualButton
+      - delay: 1s
+      - switch.turn_off: ChannelButton
+      - delay: 1s
+      - switch.turn_on: ChannelButton
+      - delay: 1s
+      - switch.turn_off: IncreaseButton
+      - delay: 1s
+      - switch.turn_on: IncreaseButton
+      - delay: 1s
+
 #      - switch.toggle: gpio_d1
 
 #  password: MyMQTTPassword
@@ -22,7 +42,7 @@ mqtt:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
 #  ap:
 #    ssid: "Test Fallback Hotspot"
-#    password: "DOrUdMrK98Q5"
+#    password: ""
 
 #captive_portal:
 
@@ -34,15 +54,31 @@ logger:
 
 #ota:
 
-#    - switch.turn_on: some_switch
+#switch:
+#  - platform: gpio
+#    pin: GPIO14
+#    name: "Manual button"
+#    inverted:  True
+#    id: ManualButton
 
 switch:
   - platform: gpio
-    pin: GPIO16
-    name: "Switch Name"
-    inverted:  True
-    id: gpio_d1
+    pin: GPIO14
+    name: "Manual button"
+#    inverted:  True
+    restore_mode: ALWAYS_ON
+    id: ManualButton
+  - platform: gpio
+    pin: GPIO12
+    name: "Increase button"
+    restore_mode: ALWAYS_ON
+    id: IncreaseButton
+  - platform: gpio
+    pin: GPIO13
+    name: "Channel button"
+    restore_mode: ALWAYS_ON
+    id: ChannelButton
 
-deep_sleep:
-  run_duration: 10s
-  sleep_duration: 1min
+#deep_sleep:
+#  run_duration: 10s
+#  sleep_duration: 1min
