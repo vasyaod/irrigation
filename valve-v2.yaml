@@ -1,0 +1,425 @@
+esphome:
+  name: valve
+  platform: esp32
+  board: nodemcu-32s
+  on_boot:
+    priority: 1000
+    then:
+      - logger.log: "Valve is ready"
+#      - switch.turn_on: Indicator
+      - mqtt.publish:
+          topic: "valve/status"
+          payload: "ready"
+
+wifi:
+  ssid: "DiffurNet"
+  password: !secret wifi_password
+  static_ip: 192.168.10.200
+  use_address: 192.168.10.200
+  gateway: 192.168.10.1
+  subnet: 255.255.255.0
+
+ota:
+  safe_mode: True
+  password: !secret valve_password
+
+script:
+  - id: push_manual_button
+    then:
+      - switch.turn_on: ManualButton
+      - delay: 500ms
+      - switch.turn_off: ManualButton
+      - delay: 1s
+  - id: push_channel_button
+    then:
+      - switch.turn_on: ChannelButton
+      - delay: 500ms
+      - switch.turn_off: ChannelButton
+      - delay: 1s
+  - id: push_increase_button
+    then:
+      - switch.turn_on: IncreaseButton
+      - delay: 250ms
+      - switch.turn_off: IncreaseButton
+      - delay: 1s
+      
+
+mqtt:
+  broker: 192.168.10.105
+  username: user
+  on_message:
+    - topic: valve/channel/1
+      payload: ""
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/1
+      payload: "1"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/1
+      payload: "2"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/1
+      payload: "3"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/1
+      payload: "4"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/1
+      payload: "5"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    # -----------------------------------------------------
+    #  Channel 2
+    - topic: valve/channel/2
+      payload: ""
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/2
+      payload: "1"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/2
+      payload: "2"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/2
+      payload: "3"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/2
+      payload: "4"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/2
+      payload: "5"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+
+    # -----------------------------------------------------
+    #  Channel 3
+    - topic: valve/channel/3
+      payload: ""
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/3
+      payload: "1"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/3
+      payload: "2"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/3
+      payload: "3"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/3
+      payload: "4"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/3
+      payload: "5"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+
+    # -----------------------------------------------------
+    #  Channel 4
+    - topic: valve/channel/4
+      payload: ""
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/4
+      payload: "1"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/4
+      payload: "2"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/4
+      payload: "3"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/4
+      payload: "4"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+    - topic: valve/channel/4
+      payload: "5"
+      then:
+        - script.execute: push_manual_button
+        - script.wait: push_manual_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_channel_button
+        - script.wait: push_channel_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+        - script.execute: push_increase_button
+        - script.wait: push_increase_button
+
+#      - switch.toggle: gpio_d1
+
+#  password: MyMQTTPassword
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+#  ap:
+#    ssid: "Test Fallback Hotspot"
+#    password: ""
+
+#captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+#api:
+
+#ota:
+
+#switch:
+#  - platform: gpio
+#    pin: GPIO14
+#    name: "Manual button"
+#    inverted:  True
+#    id: ManualButton
+
+switch:
+  - platform: gpio
+    pin: GPIO2
+    id: Indicator
+  - platform: gpio
+    pin: GPIO12
+    name: "Manual button"
+    id: ManualButton
+  - platform: gpio
+    pin: GPIO13
+    name: "Increase button"
+    id: IncreaseButton
+  - platform: gpio
+    pin: GPIO27
+    name: "Channel button"
+    id: ChannelButton
+
+#deep_sleep:
+#  run_duration: 10s
+#  sleep_duration: 1min
