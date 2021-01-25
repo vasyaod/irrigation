@@ -14,10 +14,11 @@ esphome:
 wifi:
   ssid: "DiffurNet"
   password: !secret wifi_password
-  static_ip: 192.168.10.200
   use_address: 192.168.10.200
-  gateway: 192.168.10.1
-  subnet: 255.255.255.0
+  manual_ip:
+    static_ip: 192.168.10.200
+    gateway: 192.168.10.1
+    subnet: 255.255.255.0
 
 ota:
   safe_mode: True
