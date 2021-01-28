@@ -5,10 +5,16 @@ esphome:
   on_boot:
     priority: 1000
     then:
-      - logger.log: "Moisture-sensor-1 is ready"
+#      - logger.log: "Moisture-sensor-1 is ready +++++++"
       - mqtt.publish:
           topic: "moisture-sensor-1/status"
+          qos: 1
           payload: "ready"
+#      - mqtt.publish:
+#          topic: "moisture-sensor-1/data"
+#          payload: !lambda |-
+#            return "11111";
+
 
 wifi:
   ssid: "DiffurNet"
@@ -33,15 +39,22 @@ logger:
 sensor:
   - platform: adc
     pin: A0
-    update_interval: 60s
+    update_interval: 5s
     id: adc0
     on_value: 
-      then:
-        - mqtt.publish:
-            topic: "moisture-sensor-1/data"
-            payload: !lambda |-
-              return to_string(x);
+      if:
+        condition:
+          mqtt.connected:
+        then:
+          - mqtt.publish:
+              topic: "moisture-sensor-1/data"
+              payload: !lambda |-
+                return to_string(x);
+#          - logger.log: "Moisture-sensor-1 is ready!!!!!!!!!!"
+          - delay: 3s
+          - deep_sleep.enter: deep_sleep_1  
 
-#deep_sleep:
-#  run_duration: 10s
-#  sleep_duration: 1min
+deep_sleep:
+  id: deep_sleep_1
+  run_duration: 15s
+  sleep_duration: 180min
