@@ -48,7 +48,7 @@ mqtt pub -h 192.168.10.105 -t valve/channel/2 -m "3"
 
 Subscribe to moisture-sensor data by
 ```
-mqtt sub -t moisture-sensor-1/data -h 192.168.10.105
+mqtt sub -t moisture-sensor/1/data -h 192.168.10.105
 ```
 
 ## Links and references

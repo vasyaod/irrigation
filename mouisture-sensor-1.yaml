@@ -1,5 +1,5 @@
 esphome:
-  name: moisture_sensor
+  name: moisture_sensor_1
   platform: ESP8266
   board: esp_wroom_02
   on_boot:
@@ -7,23 +7,19 @@ esphome:
     then:
 #      - logger.log: "Moisture-sensor-1 is ready +++++++"
       - mqtt.publish:
-          topic: "moisture-sensor-1/status"
-          qos: 1
+          topic: "moisture-sensor/status/1"
           payload: "ready"
-#      - mqtt.publish:
-#          topic: "moisture-sensor-1/data"
-#          payload: !lambda |-
-#            return "11111";
+
 
 
 wifi:
   ssid: "DiffurNet"
   password: !secret wifi_password
-  use_address: 192.168.10.201
-  manual_ip:
-    static_ip: 192.168.10.201
-    gateway: 192.168.10.1
-    subnet: 255.255.255.0
+#  use_address: 192.168.10.201
+#  manual_ip:
+#    static_ip: 192.168.10.201
+#    gateway: 192.168.10.1
+#    subnet: 255.255.255.0
 
 ota:
   safe_mode: True
@@ -47,7 +43,7 @@ sensor:
           mqtt.connected:
         then:
           - mqtt.publish:
-              topic: "moisture-sensor-1/data"
+              topic: "moisture-sensor/data/1"
               payload: !lambda |-
                 return to_string(x);
 #          - logger.log: "Moisture-sensor-1 is ready!!!!!!!!!!"
