@@ -7,7 +7,7 @@ esphome:
     then:
 #      - logger.log: "Moisture-sensor-1 is ready +++++++"
       - mqtt.publish:
-          topic: "moisture-sensor/status/1"
+          topic: "moisture-sensor/1/status"
           payload: "ready"
 
 
@@ -43,7 +43,7 @@ sensor:
           mqtt.connected:
         then:
           - mqtt.publish:
-              topic: "moisture-sensor/data/1"
+              topic: "moisture-sensor/1/data"
               payload: !lambda |-
                 return to_string(x);
 #          - logger.log: "Moisture-sensor-1 is ready!!!!!!!!!!"
