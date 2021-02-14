@@ -409,18 +409,18 @@ switch:
     pin: GPIO2
     id: Indicator
   - platform: gpio
-    pin: GPIO12
+    pin: GPIO16
     name: "Manual button"
     id: ManualButton
   - platform: gpio
-    pin: GPIO13
+    pin: GPIO17
     name: "Increase button"
     id: IncreaseButton
   - platform: gpio
-    pin: GPIO27
+    pin: GPIO21
     name: "Channel button"
     id: ChannelButton
 
-#deep_sleep:
-#  run_duration: 10s
-#  sleep_duration: 1min
+deep_sleep:
+  run_duration: 20s
+  sleep_duration: 1min
