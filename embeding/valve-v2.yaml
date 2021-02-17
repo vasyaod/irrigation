@@ -5,20 +5,16 @@ esphome:
   on_boot:
     priority: 1000
     then:
-      - logger.log: "Valve is ready"
-#      - switch.turn_on: Indicator
-      - mqtt.publish:
-          topic: "valve/status"
-          payload: "ready"
+      - script.execute: send_status
 
 wifi:
   ssid: "DiffurNet"
   password: !secret wifi_password
-  use_address: 192.168.10.200
-  manual_ip:
-    static_ip: 192.168.10.200
-    gateway: 192.168.10.1
-    subnet: 255.255.255.0
+  # use_address: 192.168.10.200
+  # manual_ip:
+  #   static_ip: 192.168.10.200
+  #   gateway: 192.168.10.1
+  #   subnet: 255.255.255.0
 
 ota:
   safe_mode: True
@@ -43,7 +39,14 @@ script:
       - delay: 250ms
       - switch.turn_off: IncreaseButton
       - delay: 1s
-      
+  - id: send_status
+    then:
+      - wait_until:
+          mqtt.connected:
+      - mqtt.publish:
+          topic: "valve/status"
+          payload: "ready"
+      - logger.log: "Valve is ready"
 
 mqtt:
   broker: 192.168.10.105
@@ -423,4 +426,4 @@ switch:
 
 deep_sleep:
   run_duration: 20s
-  sleep_duration: 1min
+  sleep_duration: 60min
