@@ -1,5 +1,5 @@
 esphome:
-  name: valve
+  name: valve_1
   platform: esp32
   board: nodemcu-32s
   on_boot:
@@ -44,7 +44,7 @@ script:
       - wait_until:
           mqtt.connected:
       - mqtt.publish:
-          topic: "valve/status"
+          topic: "valve/1/status"
           payload: "ready"
       - logger.log: "Valve is ready"
 
@@ -52,21 +52,48 @@ mqtt:
   broker: 192.168.10.105
   username: user
   on_message:
-    - topic: valve/channel/1
+    - topic: valve/1/sleep
+      payload: ""
+      then:
+        - deep_sleep.enter: deep_sleep_1
+    
+    - topic: valve/1/sleep-off
+      payload: ''
+      then:
+        - deep_sleep.prevent: deep_sleep_1
+
+    - topic: valve/1/manual-button
+      payload: ""
+      then:
+        - script.execute: push_manual_button
+    
+    - topic: valve/1/increase-button
+      payload: ""
+      then:
+        - script.execute: push_increase_button
+    
+    - topic: valve/1/channel-button
+      payload: ""
+      then:
+        - script.execute: push_channel_button
+    
+    # -----------------------------------------------------
+    #  Channel 1
+    - topic: valve/1/channel/1
       payload: ""
       then:
         - script.execute: push_manual_button
         - script.wait: push_manual_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/1
+    - topic: valve/1/channel/1
       payload: "1"
       then:
         - script.execute: push_manual_button
         - script.wait: push_manual_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/1
+    - topic: valve/1/channel/1
       payload: "2"
       then:
         - script.execute: push_manual_button
@@ -75,7 +102,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/1
+    - topic: valve/1/channel/1
       payload: "3"
       then:
         - script.execute: push_manual_button
@@ -86,7 +113,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/1
+    - topic: valve/1/channel/1
       payload: "4"
       then:
         - script.execute: push_manual_button
@@ -99,7 +126,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/1
+    - topic: valve/1/channel/1
       payload: "5"
       then:
         - script.execute: push_manual_button
@@ -116,7 +143,7 @@ mqtt:
         - script.wait: push_increase_button
     # -----------------------------------------------------
     #  Channel 2
-    - topic: valve/channel/2
+    - topic: valve/1/channel/2
       payload: ""
       then:
         - script.execute: push_manual_button
@@ -125,7 +152,7 @@ mqtt:
         - script.wait: push_channel_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/2
+    - topic: valve/1/channel/2
       payload: "1"
       then:
         - script.execute: push_manual_button
@@ -134,7 +161,7 @@ mqtt:
         - script.wait: push_channel_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/2
+    - topic: valve/1/channel/2
       payload: "2"
       then:
         - script.execute: push_manual_button
@@ -145,7 +172,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/2
+    - topic: valve/1/channel/2
       payload: "3"
       then:
         - script.execute: push_manual_button
@@ -158,7 +185,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/2
+    - topic: valve/1/channel/2
       payload: "4"
       then:
         - script.execute: push_manual_button
@@ -173,7 +200,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/2
+    - topic: valve/1/channel/2
       payload: "5"
       then:
         - script.execute: push_manual_button
@@ -193,7 +220,7 @@ mqtt:
 
     # -----------------------------------------------------
     #  Channel 3
-    - topic: valve/channel/3
+    - topic: valve/1/channel/3
       payload: ""
       then:
         - script.execute: push_manual_button
@@ -204,7 +231,7 @@ mqtt:
         - script.wait: push_channel_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/3
+    - topic: valve/1/channel/3
       payload: "1"
       then:
         - script.execute: push_manual_button
@@ -215,7 +242,7 @@ mqtt:
         - script.wait: push_channel_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/3
+    - topic: valve/1/channel/3
       payload: "2"
       then:
         - script.execute: push_manual_button
@@ -228,7 +255,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/3
+    - topic: valve/1/channel/3
       payload: "3"
       then:
         - script.execute: push_manual_button
@@ -243,7 +270,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/3
+    - topic: valve/1/channel/3
       payload: "4"
       then:
         - script.execute: push_manual_button
@@ -260,7 +287,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/3
+    - topic: valve/1/channel/3
       payload: "5"
       then:
         - script.execute: push_manual_button
@@ -282,7 +309,7 @@ mqtt:
 
     # -----------------------------------------------------
     #  Channel 4
-    - topic: valve/channel/4
+    - topic: valve/1/channel/4
       payload: ""
       then:
         - script.execute: push_manual_button
@@ -295,7 +322,7 @@ mqtt:
         - script.wait: push_channel_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/4
+    - topic: valve/1/channel/4
       payload: "1"
       then:
         - script.execute: push_manual_button
@@ -308,7 +335,7 @@ mqtt:
         - script.wait: push_channel_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/4
+    - topic: valve/1/channel/4
       payload: "2"
       then:
         - script.execute: push_manual_button
@@ -323,7 +350,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/4
+    - topic: valve/1/channel/4
       payload: "3"
       then:
         - script.execute: push_manual_button
@@ -340,7 +367,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/4
+    - topic: valve/1/channel/4
       payload: "4"
       then:
         - script.execute: push_manual_button
@@ -359,7 +386,7 @@ mqtt:
         - script.wait: push_increase_button
         - script.execute: push_increase_button
         - script.wait: push_increase_button
-    - topic: valve/channel/4
+    - topic: valve/1/channel/4
       payload: "5"
       then:
         - script.execute: push_manual_button
@@ -425,5 +452,6 @@ switch:
     id: ChannelButton
 
 deep_sleep:
-  run_duration: 20s
-  sleep_duration: 60min
+  id: deep_sleep_1
+  run_duration: 30s
+  sleep_duration: 120min
