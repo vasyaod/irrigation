@@ -26,10 +26,10 @@ subscribe("moisture-sensor/+/data",  function (topic, message) {
 
 subscribe("moisture-sensor/+/status",  function (topic, message) {
     console.log("Status", topic, message.toString())
-    sdc.increment(fixTopic(topic));
+    sdc.counter(fixTopic(topic), 1);
 })
 
 subscribe("valve/+/status",  function (topic, message) {
     console.log("Status", topic, message.toString())
-    sdc.increment(fixTopic(topic));
+    sdc.counter(fixTopic(topic), 1);
 })

@@ -23,17 +23,26 @@ For this purpose the tool is required https://hivemq.github.io/mqtt-cli/
 
 ### Test switching of valve
 
+When valve awake for sleep mode we got message for the next topic
+
+```
+mqtt sub -t valve/1/status -h 192.168.10.105
+```
+
+after we have 30 seconds for next command before the device go to the sleep mode again.
+
 Enable channel #1 for one minute
 
 ```
-mqtt pub -h 192.168.10.105 -t valve/channel/1 -m "1"
+mqtt pub -h 192.168.10.105 -t valve/1/channel/1 -m "1"
 ```
 
 Enable channel #2 for three minutes
 
 ```
-mqtt pub -h 192.168.10.105 -t valve/channel/2 -m "3"
+mqtt pub -h 192.168.10.105 -t valve/1/channel/2 -m "3"
 ```
+
 ### Test moisture sensors
 
 Subscribe to moisture-sensor data by
