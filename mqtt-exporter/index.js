@@ -3,18 +3,16 @@ const SDC = require('statsd-client')
 
 const sdc = new SDC({host: '192.168.10.105', port: 8125});
 
-//client.subscribe("moisture-sensor/+/status")
-
 function fixTopic(topic) {
     return topic.replace("/","-").replace("/","-")
 }
 
 function subscribe(topic, f) {
-    const client1 = mqtt.connect("mqtt://192.168.10.105")
+    const client = mqtt.connect("mqtt://192.168.10.105")
 
-    client1.subscribe("topic")
+    client.subscribe(topic)
     
-    client1.on('message', function (topic, message) {
+    client.on('message', function (topic, message) {
         f(topic, message)
     })
 }

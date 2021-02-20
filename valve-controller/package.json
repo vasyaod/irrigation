@@ -1,5 +1,5 @@
 {
-  "name": "mqtt-exporter",
+  "name": "valve-controller",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mqtt": "^4.2.6",
-    "statsd-client": "^0.4.5"
+    "mqtt": "^4.2.6"
   }
 }
