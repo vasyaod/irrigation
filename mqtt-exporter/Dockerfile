@@ -1,4 +1,4 @@
-FROM docker.io/library/node:latest
+FROM --platform=linux/arm/v7 docker.io/library/node:latest
 
 COPY . /app
 
