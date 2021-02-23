@@ -4,5 +4,5 @@ COPY . /app
 
 WORKDIR /app
 
-CMD "node index.js"
+CMD ["node", "index.js"]
 #ENTRYPOINT [ "/app/entrypoint.sh" ]
