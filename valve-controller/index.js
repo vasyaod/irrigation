@@ -8,7 +8,7 @@ function subscribe(topic, f) {
     const client = mqtt.connect("mqtt://192.168.10.105")
 
     client.subscribe(topic)
-    console.log("Subscribed to ", topic)
+    console.log("Subscribed to", topic)
     
     client.on('message', function (topic, message) {
         f(topic, message)
@@ -17,7 +17,7 @@ function subscribe(topic, f) {
 
 console.log("Valve controller started")
 
-subscribe("valve/1/status",  function (topic, message) {
+subscribe("valve/+/status",  function (topic, message) {
     console.log("Valve awake", topic, message.toString())
 
     if (queue.size > 0) {
@@ -35,6 +35,10 @@ subscribe("valve/1/status",  function (topic, message) {
 subscribe("valve-controller",  function (topic, message) {
     console.log("Debug method to valve controller", message.toString())
     queue = queue.push(JSON.parse(message.toString()))
+})
+
+subscribe("moisture-sensor/+/data",  function (topic, message) {
+    console.log("Ping")
 })
 
 const job = new CronJob('0 0 9 * * *', function() {
