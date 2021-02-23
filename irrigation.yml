@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: irrigation
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt-exporter
+  namespace: irrigation
+spec:
+  selector:
+    matchLabels:
+      app: mqtt-exporter
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mqtt-exporter
+    spec:
+      containers:
+      - name: mqtt-exporter
+        image: 192.168.100.1:5000/irrigation/mqtt-exporter
+        imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: valve-controller
+  namespace: irrigation
+spec:
+  selector:
+    matchLabels:
+      app: valve-controller
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: valve-controller
+    spec:
+      containers:
+      - name: valve-controller
+        image: 192.168.100.1:5000/irrigation/valve-controller
+        imagePullPolicy: Always
+

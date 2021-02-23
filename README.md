@@ -59,7 +59,7 @@ mqtt sub -t moisture-sensor/1/data -h 192.168.10.105
 
 Mqtt exporter copies data from mqtt server to Graphite server by statsd interface.
 
-```
+```bash
 npm install
 node index.js
 ```
@@ -68,7 +68,19 @@ node index.js
 
 Application controls valve based on latest moisture sensor values
 
-```
+```bash
 npm install
 node index.js
+```
+
+# K8S configuration
+
+For configuration of k8s there is the file ./irrigation.yml
+
+```bash
+# Apply configuration
+kubectl apply -f ./irrigation.yml
+
+# Clean all pods
+kubectl delete all --all -n irrigation
 ```
