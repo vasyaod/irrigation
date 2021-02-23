@@ -32,6 +32,10 @@ subscribe("valve/+/status",  function (topic, message) {
     }
 })
 
+subscribe("valve/1/status",  function (topic, message) {
+    console.log("Valve awake")
+})
+
 subscribe("valve-controller",  function (topic, message) {
     console.log("Debug method to valve controller", message.toString())
     queue = queue.push(JSON.parse(message.toString()))

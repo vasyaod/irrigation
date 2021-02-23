@@ -5,21 +5,28 @@ esphome:
   on_boot:
     priority: 1000
     then:
-#      - logger.log: "Moisture-sensor-1 is ready +++++++"
-      - mqtt.publish:
-          topic: "moisture-sensor/3/status"
-          payload: "ready"
-
+      - script.execute: send_status
 
 
 wifi:
   ssid: "DiffurNet"
   password: !secret wifi_password
-#  use_address: 192.168.10.201
-#  manual_ip:
-#    static_ip: 192.168.10.201
-#    gateway: 192.168.10.1
-#    subnet: 255.255.255.0
+
+script:
+  - id: send_status
+    then:
+      - wait_until:
+          mqtt.connected:
+      - mqtt.publish:
+          topic: "moisture-sensor/3/status"
+          payload: "ready"
+      - logger.log: "Sensor is ready"
+      - mqtt.publish:
+          topic: "moisture-sensor/3/data"
+          payload: !lambda |-
+            return to_string(id(adc0).state);
+      - delay: 2s
+      - deep_sleep.enter: deep_sleep_1
 
 ota:
   safe_mode: True
@@ -35,22 +42,10 @@ logger:
 sensor:
   - platform: adc
     pin: A0
-    update_interval: 5s
+    update_interval: 1s
     id: adc0
-    on_value: 
-      if:
-        condition:
-          mqtt.connected:
-        then:
-          - mqtt.publish:
-              topic: "moisture-sensor/3/data"
-              payload: !lambda |-
-                return to_string(x);
-#          - logger.log: "Moisture-sensor-1 is ready!!!!!!!!!!"
-          - delay: 3s
-          - deep_sleep.enter: deep_sleep_1
 
 deep_sleep:
   id: deep_sleep_1
-  run_duration: 15s
+  run_duration: 20s
   sleep_duration: 180min
