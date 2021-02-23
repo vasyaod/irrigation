@@ -8,11 +8,14 @@ function subscribe(topic, f) {
     const client = mqtt.connect("mqtt://192.168.10.105")
 
     client.subscribe(topic)
+    console.log("Subscribed to ", topic)
     
     client.on('message', function (topic, message) {
         f(topic, message)
     })
 }
+
+console.log("Valve controller started")
 
 subscribe("valve/1/status",  function (topic, message) {
     console.log("Valve awake", topic, message.toString())
