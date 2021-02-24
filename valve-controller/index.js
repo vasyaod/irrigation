@@ -36,7 +36,7 @@ subscribe("valve/+/status",  function (topic, message) {
     console.log("Status", topic, message.toString())
 })
 
-// {"topic": "valve/1/channel/2", "value": 1}
+// {"topic": "valve/1/channel/2", "value": "1"}
 subscribe("valve-controller",  function (topic, message) {
     console.log("Debug method to valve controller", message.toString())
     queue = queue.push(JSON.parse(message.toString()))
@@ -50,7 +50,7 @@ const job = new CronJob('0 0 9 * * *', function() {
     console.log('Add a task to schedule')
     queue = queue.push({
         topic: "valve/1/channel/2",
-        value: 1
+        value: "1"
     })
 });
 job.start();
