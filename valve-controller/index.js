@@ -11,13 +11,13 @@ function subscribe(topic, f) {
     console.log("Subscribed to", topic)
     
     client.on('message', function (topic, message) {
-        f(topic, message)
+        f(topic, message, client)
     })
 }
 
 console.log("Valve controller started")
 
-subscribe("valve/+/status",  function (topic, message) {
+subscribe("valve/+/status",  function (topic, message, client) {
     console.log("Valve awake", topic, message.toString())
 
     if (queue.size > 0) {
@@ -32,17 +32,18 @@ subscribe("valve/+/status",  function (topic, message) {
     }
 })
 
-subscribe("valve/1/status",  function (topic, message) {
-    console.log("Valve awake")
+subscribe("valve/+/status",  function (topic, message) {
+    console.log("Status", topic, message.toString())
 })
 
+// {"topic": "valve/1/channel/2", "value": 1}
 subscribe("valve-controller",  function (topic, message) {
     console.log("Debug method to valve controller", message.toString())
     queue = queue.push(JSON.parse(message.toString()))
 })
 
 subscribe("moisture-sensor/+/data",  function (topic, message) {
-    console.log("Ping")
+    console.log("Moisture-sensor status", topic, message.toString())
 })
 
 const job = new CronJob('0 0 9 * * *', function() {
