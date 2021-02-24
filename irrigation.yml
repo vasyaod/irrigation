@@ -22,6 +22,9 @@ spec:
       - name: mqtt-exporter
         image: 192.168.100.1:5000/irrigation/mqtt-exporter
         imagePullPolicy: Always
+        env:
+        - name: TZ
+          value: "America/Los_Angeles"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,4 +45,7 @@ spec:
       - name: valve-controller
         image: 192.168.100.1:5000/irrigation/valve-controller
         imagePullPolicy: Always
+        env:
+        - name: TZ
+          value: "America/Los_Angeles"
 
