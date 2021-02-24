@@ -76,7 +76,7 @@ node index.js
 Testing of valve controller by sending a debug messages
 
 ```bash
-mqtt pub -h 192.168.10.105 -t valve-controller -m "{\"topic\": \"valve/1/channel/2\", \"value\": \"1\"}"
+mqtt pub -h 192.168.10.105 -t valve-controller/add-task -m "{\"topic\": \"valve/1/channel/2\", \"value\": \"1\"}"
 ```
 
 # K8S configuration

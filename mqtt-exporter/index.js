@@ -1,5 +1,6 @@
 const mqtt = require('mqtt')
 const SDC = require('statsd-client')
+require('console-stamp')(console, { pattern: 'yyyy/mm/dd HH:MM:ss.l' });
 
 const sdc = new SDC({host: '192.168.10.105', port: 8125});
 

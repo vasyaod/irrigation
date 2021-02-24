@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "console-stamp": "^0.2.9",
     "mqtt": "^4.2.6",
     "statsd-client": "^0.4.5"
   }
