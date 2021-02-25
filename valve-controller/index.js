@@ -54,7 +54,7 @@ subscribe("moisture-sensor/+/data",  function (topic, message) {
     console.log("Moisture-sensor status", topic, message.toString())
 })
 
-const job = new CronJob('0 0 4 * * *', function() {
+const job = new CronJob('0 0 18 * * *', function() {
     console.log('Add a task to schedule')
     
     queue = queue.push({
