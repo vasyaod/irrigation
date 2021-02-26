@@ -72,6 +72,6 @@ subscribe("moisture-sensor/+/data",  function (topic, message) {
 (new CronJob('0 0 18 */3 * *', function() {
     pushToQueue({
         topic: "valve/1/channel/1",
-        value: "5"
+        value: "2"
     })
 })).start();
