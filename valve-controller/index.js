@@ -19,6 +19,11 @@ function subscribe(topic, f) {
     })
 }
 
+function pushToQueue(value) {
+    queue = queue.push(value)
+    sdc.gauge("valve-controller/queue-size", queue.size)
+}
+
 console.log("Valve controller started", new Date())
 
 subscribe("valve/+/status",  function (topic, message, client) {
@@ -45,28 +50,28 @@ subscribe("valve/+/status",  function (topic, message) {
 // {"topic": "valve/1/channel/2", "value": "1"}
 subscribe("valve-controller/add-task",  function (topic, message) {
     console.log("Debug method to valve controller", message.toString())
-    queue = queue.push(JSON.parse(message.toString()))
-    
-    sdc.gauge("valve-controller/queue-size", queue.size)
+    pushToQueue(JSON.parse(message.toString()))
 })
 
 subscribe("moisture-sensor/+/data",  function (topic, message) {
     console.log("Moisture-sensor status", topic, message.toString())
 })
 
-const job = new CronJob('0 0 18 * * *', function() {
-    console.log('Add a task to schedule')
-    
-    queue = queue.push({
-        topic: "valve/1/channel/2",
-        value: "1"
-    })
-
-    queue = queue.push({
+(new CronJob('0 0 18 * * *', function() {
+    pushToQueue({
         topic: "valve/1/channel/4",
         value: "2"
     })
 
-    sdc.gauge("valve-controller/queue-size", queue.size)
-});
-job.start();
+    pushToQueue({
+        topic: "valve/1/channel/2",
+        value: "2"
+    })
+})).start();
+
+(new CronJob('0 0 18 */3 * *', function() {
+    pushToQueue({
+        topic: "valve/1/channel/1",
+        value: "5"
+    })
+})).start();
