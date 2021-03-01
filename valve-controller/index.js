@@ -57,10 +57,10 @@ subscribe("moisture-sensor/+/data",  function (topic, message) {
     console.log("Moisture-sensor status", topic, message.toString())
 })
 
-const job1 = new CronJob('0 0 19 * * *', function() {
+const job1 = new CronJob('0 0 17 * * *', function() {
     pushToQueue({
         topic: "valve/1/channel/4",
-        value: "2"
+        value: "3"
     })
 
     pushToQueue({
@@ -70,10 +70,10 @@ const job1 = new CronJob('0 0 19 * * *', function() {
 })
 job1.start();
 
-const job2 = new CronJob('0 0 18 */3 * *', function() {
+const job2 = new CronJob('0 0 17 */3 * *', function() {
     pushToQueue({
         topic: "valve/1/channel/1",
-        value: "2"
+        value: "3"
     })
 })
 job2.start();
