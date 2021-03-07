@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: mqtt-exporter
-        image: 192.168.100.1:5000/irrigation/mqtt-exporter:2
+        image: 192.168.100.1:5000/irrigation/mqtt-exporter
         imagePullPolicy: Always
         env:
         - name: TZ
@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: valve-controller
-        image: 192.168.100.1:5000/irrigation/valve-controller:2
+        image: 192.168.100.1:5000/irrigation/valve-controller
         imagePullPolicy: Always
         env:
         - name: TZ
