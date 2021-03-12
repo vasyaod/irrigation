@@ -7,6 +7,7 @@ require('console-stamp')(console, { pattern: 'yyyy/mm/dd HH:MM:ss.l' });
 const sdc = new SDC({host: '192.168.10.105', port: 8125});
 
 let queue = List([])
+let isOn = true
 
 function subscribe(topic, f) {
     const client = mqtt.connect("mqtt://192.168.10.105")
@@ -20,8 +21,10 @@ function subscribe(topic, f) {
 }
 
 function pushToQueue(value) {
-    queue = queue.push(value)
-    sdc.gauge("valve-controller/queue-size", queue.size)
+    if (isOn) {
+        queue = queue.push(value)
+        sdc.gauge("valve-controller/queue-size", queue.size)
+    }
 }
 
 console.log("Valve controller started", new Date())
@@ -51,6 +54,14 @@ subscribe("valve/+/status",  function (topic, message) {
 subscribe("valve-controller/add-task",  function (topic, message) {
     console.log("Debug method to valve controller", message.toString())
     pushToQueue(JSON.parse(message.toString()))
+})
+
+subscribe("valve-controller/on",  function (topic, message) {
+    isOn = true
+})
+
+subscribe("valve-controller/off",  function (topic, message) {
+    isOn = false
 })
 
 subscribe("moisture-sensor/+/data",  function (topic, message) {
