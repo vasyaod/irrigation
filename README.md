@@ -1,5 +1,9 @@
 # Irrigation system improvements
 
+## Screenshots
+
+![Data in grafana](./assets/screenshot1.png)
+
 ## Valve V2
 
 Controller based on ESP32.
@@ -72,6 +76,22 @@ Application controls valve based on latest moisture sensor values
 npm install
 node index.js
 ```
+
+### On/Off valve controller
+
+Enable valve controller
+
+```bash
+mqtt pub -h 192.168.10.105 -t valve-controller/on -m ""
+```
+
+Disable valve controller
+
+```bash
+mqtt pub -h 192.168.10.105 -t valve-controller/off -m ""
+```
+
+### Debug of valve controller
 
 Testing of valve controller by sending a debug messages
 
