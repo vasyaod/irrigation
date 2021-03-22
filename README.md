@@ -4,14 +4,18 @@
 
 ![Data in grafana](./assets/screenshot1.png)
 
+## Moisture sensor
+
+TBD
+
 ## Valve V2
 
-Controller based on ESP32.
+Controller based on ESP32 since 
 
 For switching of buttons the nest pins are used
-  - GPIO16
-  - GPIO17
-  - GPIO21
+  - GPIO16 - "Manual button"
+  - GPIO17 - "Increase button"
+  - GPIO21 - "Channel button"
 
 Indicator is using GPIO2
 
@@ -55,7 +59,9 @@ mqtt sub -t moisture-sensor/1/data -h 192.168.10.105
 ```
 
 ## Links and references
-  - https://hivemq.github.io/mqtt-cli/ Mqtt CLI
+
+  - [ESPHome project](https://esphome.io/index.html)
+  - [Mqtt CLI](https://hivemq.github.io/mqtt-cli/)
   - https://esphome.io/api/helpers_8cpp_source.html Useful common functions
   - https://docs.platformio.org/en/latest/platforms/espressif32.html
   
