@@ -87,7 +87,7 @@ const job4 = new CronJob('0 0 8 * * *', function() {
 job4.start();
 
 // Lawn
-const job2 = new CronJob('0 0 17 * * *', function() {
+const job2 = new CronJob('0 0 6,17 * * *', function() {
     pushToQueue({
         topic: "valve/1/channel/2",
         value: "3"
