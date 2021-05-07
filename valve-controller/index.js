@@ -78,10 +78,10 @@ const job3 = new CronJob('0 0 16 * * *', function() {
 job3.start();
 
 // Flowers
-const job4 = new CronJob('0 0 8 * * *', function() {
+const job4 = new CronJob('0 0 7,17 * * *', function() {
     pushToQueue({
         topic: "valve/1/channel/4",
-        value: "4"
+        value: "3"
     })
 })
 job4.start();
@@ -97,6 +97,10 @@ job2.start();
 
 // Tomatos
 const job1 = new CronJob('0 0 15 */3 * *', function() {
+    pushToQueue({
+        topic: "valve/1/channel/1",
+        value: "5"
+    })
     pushToQueue({
         topic: "valve/1/channel/1",
         value: "5"
