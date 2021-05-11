@@ -116,3 +116,37 @@ kubectl apply -f ./irrigation.yml
 # Clean all pods
 kubectl delete all --all -n irrigation
 ```
+
+# Notes
+
+Old build script (please, notice that in the new version of system `./jenkins-file` is used).
+
+```bash
+node --version
+podman login -u $REG_USER -p $REG_PASSWORD --tls-verify=false 192.168.100.1:5000
+
+#podman system prune --all --force && podman rmi --all
+
+# --platform linux/arm64
+cd mqtt-exporter
+npm install
+podman build -t 192.168.100.1:5000/irrigation/mqtt-exporter .
+podman push --tls-verify=false 192.168.100.1:5000/irrigation/mqtt-exporter
+
+cd ../valve-controller
+npm install
+podman build -t 192.168.100.1:5000/irrigation/valve-controller .
+podman push --tls-verify=false 192.168.100.1:5000/irrigation/valve-controller
+
+cd ..
+
+# Copy config file
+mkdir -p "/home/jenkins/.ssh" | ls -l | ssh-keyscan -H 192.168.100.4 >> /home/jenkins/.ssh/known_hosts
+SSH="ssh -i $KEY_FILE root@192.168.100.4"
+scp -i $KEY_FILE -r ./irrigation.yml root@192.168.100.4:/root
+
+# Deploy containers
+$SSH 'kubectl delete all --all -n irrigation'
+sleep 10
+$SSH 'kubectl apply -f /root/irrigation.yml'
+```
