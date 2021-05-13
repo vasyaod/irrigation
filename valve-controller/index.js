@@ -99,7 +99,7 @@ job2.start();
 const job1 = new CronJob('0 0 15 */3 * *', function() {
     pushToQueue({
         topic: "valve/1/channel/1",
-        value: "5"
+        value: "5"   
     })
     pushToQueue({
         topic: "valve/1/channel/1",

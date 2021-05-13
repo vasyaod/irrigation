@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    parameters {
+        choice(name: 'CHANNEL', choices: ['valve/1/channel/1', 'valve/1/channel/2', 'valve/1/channel/3', 'valve/1/channel/4'], description: 'Valve channel')
+        choice(name: 'TIME', choices: ['1', '2', '3', '4', '5'], description: 'Irritgation time')
+    }    
+    stages {
+        stage('Triggering') {
+            steps {
+                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'pi', \
+                                             keyFileVariable: 'KEY_FILE')]) {
+                    sh 'ssh -i $KEY_FILE root@192.168.100.4 "mqtt pub -h 192.168.10.105 -t $CHANNEL -m $TIME"'
+                }
+            }
+        }
+    }
+}

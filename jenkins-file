@@ -1,0 +1,38 @@
+pipeline {
+    agent { label 'podman-agent' }
+    stages {
+        stage('Build') {
+            agent { label 'podman-agent' }
+            environment {
+                REG = credentials('regestry')
+            }
+            steps {
+                git branch: 'master',
+                    credentialsId: 'pi',
+                    url: 'git@github.com:vasyaod/irrigation.git'
+
+                sh 'cd mqtt-exporter && npm install'
+                sh 'cd valve-controller && npm install'
+
+                // Build containers
+                sh 'cd mqtt-exporter && podman build -t 192.168.100.1:5000/mqtt-exporter .'
+                sh 'cd valve-controller && podman build -t 192.168.100.1:5000/valve-controller .'
+
+                sh 'podman login -u $REG_USR -p $REG_PSW --tls-verify=false 192.168.100.1:5000'                
+
+                // Push containers
+                sh 'podman push --tls-verify=false 192.168.100.1:5000/mqtt-exporter'
+                sh 'podman push --tls-verify=false 192.168.100.1:5000/valve-controller'
+
+                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'pi', \
+                                             keyFileVariable: 'KEY_FILE')]) {
+                    sh 'ssh-keyscan -H 192.168.100.4 >> ~/.ssh/known_hosts'
+                    sh 'scp -i $KEY_FILE -r ./irrigation.yml root@192.168.100.4:/root'
+                    sh 'ssh -i $KEY_FILE root@192.168.100.4 "kubectl delete all --all -n irrigation || true"'
+                    sh 'sleep 20'
+                    sh 'ssh -i $KEY_FILE root@192.168.100.4 "kubectl apply -f /root/irrigation.yml"'
+                }
+            }
+        }
+    }
+}
