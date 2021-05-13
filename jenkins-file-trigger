@@ -9,6 +9,7 @@ pipeline {
             steps {
                 withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'pi', \
                                              keyFileVariable: 'KEY_FILE')]) {
+                    sh 'ssh-keyscan -H 192.168.100.4 >> ~/.ssh/known_hosts'
                     sh 'ssh -i $KEY_FILE root@192.168.100.4 "mqtt pub -h 192.168.10.105 -t $CHANNEL -m $TIME"'
                 }
             }
