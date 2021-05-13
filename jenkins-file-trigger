@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Triggering') {
             steps {
-                sh 'mqtt pub -h 192.168.100.4 -t $CHANNEL -m $TIME'
+                sh 'mqtt pub -h 192.168.100.4 -t valve-controller/add-task -m "{\"topic\": \"$CHANNEL\", \"value\": \"$TIME\"}"'
             }
         }
     }
