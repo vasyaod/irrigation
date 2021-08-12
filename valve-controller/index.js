@@ -72,7 +72,7 @@ subscribe("moisture-sensor/+/data",  function (topic, message) {
 const job3 = new CronJob('0 0 16 * * *', function() {
     pushToQueue({
         topic: "valve/1/channel/3",
-        value: "2"
+        value: "1"
     })
 })
 job3.start();
@@ -90,20 +90,20 @@ job4.start();
 const job2 = new CronJob('0 0 6,17 * * *', function() {
     pushToQueue({
         topic: "valve/1/channel/2",
-        value: "5"
+        value: "4"
     })
 })
 job2.start();
 
 // Tomatos
-const job1 = new CronJob('0 0 15 */3 * *', function() {
-    pushToQueue({
-        topic: "valve/1/channel/1",
-        value: "5"   
-    })
-    pushToQueue({
-        topic: "valve/1/channel/1",
-        value: "5"
-    })
-})
-job1.start();
+// const job1 = new CronJob('0 0 15 */3 * *', function() {
+//     pushToQueue({
+//         topic: "valve/1/channel/1",
+//         value: "5"
+//     })
+//     pushToQueue({
+//         topic: "valve/1/channel/1",
+//         value: "5"
+//     })
+// })
+// job1.start();
